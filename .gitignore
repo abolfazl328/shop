@@ -1,0 +1,8 @@
+node_modules
+server.cert
+server.key
+access.log
+nodemon.json
+.env
+images
+package-lock.json

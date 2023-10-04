@@ -28,8 +28,8 @@ const store = new MongoDBStore({
 });
 const csrfProtection = csrf();
 
-const privteKey = fs.readFileSync("server.key");
-const certificate = fs.readFileSync("server.cert");
+// const privteKey = fs.readFileSync("server.key");
+// const certificate = fs.readFileSync("server.cert");
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {

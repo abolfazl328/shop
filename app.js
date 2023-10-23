@@ -12,7 +12,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 const morgan = require("morgan");
 const fs = require("fs");
-const https = require("https");
+// const https = require("https");
 require("dotenv").config();
 
 const errorController = require("./controllers/error");
@@ -46,10 +46,14 @@ app.set("views", "views");
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth");
+const { error } = require("console");
 
-const accessLogStram = fs.WriteStream(path.join(__dirname, "access.log"), {
-  flags: "a",
-});
+const accessLogStram = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  {
+    flags: "a",
+  }
+);
 
 app.use(helmet());
 app.use(compression());
@@ -130,6 +134,11 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => {
+    fs.access(path.join(__dirname, "images"), (error) => {
+      if (error) {
+        fs.mkdirSync(path.join(__dirname, "images"));
+      }
+    });
     console.log("Connected!");
     // https
     //   .createServer({ key: privteKey, cert: certificate }, app)

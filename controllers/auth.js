@@ -1,22 +1,12 @@
 const crypto = require("crypto");
 
 const bcrypt = require("bcryptjs");
-const mail_sender = require("../util/mail_sender");
-// const nodemailer = require("nodemailer");
-// const sendgridTransport = require("nodemailer-sendgrid-transport");
+// const mail_sender = require("../util/mail_sender");
+
 const { validationResult } = require("express-validator/check");
 
 const User = require("../models/user");
 const send_email = require("../util/mail_sender");
-
-// const transporter = nodemailer.createTransport(
-//   sendgridTransport({
-//     auth: {
-//       api_key:
-//         "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",
-//     },
-//   })
-// );
 
 exports.getLogin = (req, res, next) => {
   let message = req.flash("error");
@@ -155,12 +145,6 @@ exports.postSignup = (req, res, next) => {
     })
     .then((result) => {
       res.redirect("/login");
-      // return transporter.sendMail({
-      //   to: email,
-      //   from: "shop@node-complete.com",
-      //   subject: "Signup succeeded!",
-      //   html: "<h1>You successfully signed up!</h1>",
-      // });
       return send_email(email, "<h1>You successfully signed up!</h1>");
     })
     .catch((err) => {
@@ -210,15 +194,6 @@ exports.postReset = (req, res, next) => {
       })
       .then((result) => {
         res.redirect("/");
-        // transporter.sendMail({
-        //   to: req.body.email,
-        //   from: "shop@node-complete.com",
-        //   subject: "Password reset",
-        //   html: `
-        // <p>You requested a password reset</p>
-        // <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
-        //   `,
-        // });
         send_email(
           req.body.email,
           `
